@@ -6,11 +6,14 @@ import {
   TextInput,
   TouchableOpacity,
   ImageBackground,
+  KeyboardAvoidingView,
+  Platform
 } from 'react-native';
 
 const Start = ({ navigation }) => {
   const [name, setName] = useState('');
   const [color, setColor] = useState('');
+  const [chosenBG, setChosenBG] = useState(null);
 
   return (
     <View style={styles.container}>
@@ -18,6 +21,10 @@ const Start = ({ navigation }) => {
         <View style={styles.subContainer}>
           <Text>Welcome!</Text>
           <TextInput
+            accessible={true}
+            accessibleLabel="Write your name"
+            accessibleHint="Let's you choose your Screen Name for the chat app"
+            accessibilityRole="input"
             style={styles.textInput}
             value={name}
             onChangeText={setName}
@@ -26,32 +33,56 @@ const Start = ({ navigation }) => {
           <Text>Choose a background color</Text>
           <View style={styles.colorChoiceContainer}>
             <TouchableOpacity
-              style={[styles.colorChoice, styles.colorChoice1]}
+              accessible={true}
+              accessibleLabel="Pink"
+              accessibleHint="Let's you choose the Background color of your chat app"
+              accessibilityRole="button"
+              style={[styles.colorChoice, styles.colorChoice1, chosenBG === 'pink' && styles.colorChosen] }
               onPress={() => {
                 setColor('pink');
+                setChosenBG('pink');
               }}
             />
             <TouchableOpacity
-              style={[styles.colorChoice, styles.colorChoice2]}
+              accessible={true}
+              accessibleLabel="Dark Slate Grey"
+              accessibleHint="Let's you choose the Background color of your chat app"
+              accessibilityRole="button"
+              style={[styles.colorChoice, styles.colorChoice2, chosenBG === 'darkslategrey' && styles.colorChosen]}
               onPress={() => {
-                setColor('#474056');
+                setColor('darkslategrey');
+                setChosenBG('darkslategrey');
               }}
             />
             <TouchableOpacity
-              style={[styles.colorChoice, styles.colorChoice3]}
+              accessible={true}
+              accessibleLabel="Grey"
+              accessibleHint="Let's you choose the Background color of your chat app"
+              accessibilityRole="button"
+              style={[styles.colorChoice, styles.colorChoice3, chosenBG === 'grey' && styles.colorChosen]}
               onPress={() => {
-                setColor('#8A95A5');
+                setColor('grey');
+                setChosenBG('grey');
               }}
             />
             <TouchableOpacity
-              style={[styles.colorChoice, styles.colorChoice4]}
+              accessible={true}
+              accessibleLabel="Light Green"
+              accessibleHint="Let's you choose the Background color of your chat app"
+              accessibilityRole="button"
+              style={[styles.colorChoice, styles.colorChoice4, chosenBG === 'lightgreen' && styles.colorChosen]}
               onPress={() => {
-                setColor('#B9C6AE');
+                setColor('lightgreen');
+                setChosenBG('lightgreen');
               }}
             />
           </View>
 
           <TouchableOpacity
+            accessible={true}
+            accessibleLabel="Go to Chat"
+            accessibleHint="Let's you submit your chosen name and go to the Chat screen"
+            accessibilityRole="button"
             style={styles.submitButton}
             onPress={() => {
               navigation.navigate('Chat', { name: name, color: color });
@@ -59,6 +90,7 @@ const Start = ({ navigation }) => {
           >
             <Text>Submit Name and start Chatting!</Text>
           </TouchableOpacity>
+          {Platform.OS === "ios" ? <KeyboardAvoidingView behavior="padding" /> : null}
         </View>
       </ImageBackground>
     </View>
@@ -120,14 +152,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'pink',
   },
   colorChoice2: {
-    backgroundColor: '#474056',
+    backgroundColor: 'darkslategrey',
   },
   colorChoice3: {
-    backgroundColor: '#8A95A5',
+    backgroundColor: 'lightgrey',
   },
   colorChoice4: {
-    backgroundColor: '#B9C6AE',
+    backgroundColor: 'lightgreen',
   },
+  colorChosen: {
+    borderColor: 'gold',
+    borderWidth: 4
+  }
 });
 
 export default Start;
