@@ -10,12 +10,12 @@ const Chat = ({ route, navigation }) => {
     setMessages([
       {
         _id: 1,
-        text: "Hello " + `${name}`,
+        text: 'Hello ' + `${name}`+'!',
         createdAt: new Date(),
         user: {
           _id: 2,
-          name: "React Native",
-          avatar: "https://placeimg.com/140/140/any",
+          name: 'React Native',
+          avatar: 'https://placeimg.com/140/140/any',
         },
       },
     ]);
@@ -34,10 +34,10 @@ const Chat = ({ route, navigation }) => {
       {...props}
       wrapperStyle={{
         right: {
-          backgroundColor: "purple"
+          backgroundColor: 'orange'
         },
         left: {
-          backgroundColor: "lightgreen"
+          backgroundColor: 'lightblue'
         }
       }}
     />
@@ -53,7 +53,7 @@ const Chat = ({ route, navigation }) => {
           _id: 1
         }}
       />
-      {Platform.OS === "android"?<KeyboardAvoidingView behavior="height" />: null}
+      {Platform.OS === 'android'?<KeyboardAvoidingView behavior='height' />: null}
     </View>
   );
 };
