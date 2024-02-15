@@ -1,19 +1,26 @@
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ImageBackground,
-  KeyboardAvoidingView,
-  Platform
-} from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, ImageBackground, Alert, KeyboardAvoidingView, Platform } from 'react-native';
+
+import { getAuth, signInAnonymously } from 'firebase/auth';
 
 const Start = ({ navigation }) => {
   const [name, setName] = useState('');
   const [color, setColor] = useState('');
   const [chosenBG, setChosenBG] = useState(null);
+
+  // getAuth is for our Anonymous authentication
+  const auth = getAuth();
+
+  //when button is clicked, the user is "signed on" with their temporary account
+  const signInUser = () => {
+    signInAnonymously(auth)
+      .then(result => {
+        navigation.navigate('Chat', { userID: result.user.uid, name, color});
+      })
+      .catch((e) => {
+        Alert.alert('Unable to sign in, try again later.');
+      })
+  }
 
   return (
     <View style={styles.container}>
@@ -24,7 +31,6 @@ const Start = ({ navigation }) => {
             accessible={true}
             accessibleLabel="Write your name"
             accessibleHint="Let's you choose your Screen Name for the chat app"
-            accessibilityRole="input"
             style={styles.textInput}
             value={name}
             onChangeText={setName}
@@ -37,7 +43,7 @@ const Start = ({ navigation }) => {
               accessibleLabel="Pink"
               accessibleHint="Let's you choose the Background color of your chat app"
               accessibilityRole="button"
-              style={[styles.colorChoice, styles.colorChoice1, chosenBG === 'pink' && styles.colorChosen] }
+              style={[styles.colorChoice, styles.colorChoice1, chosenBG === 'pink' && styles.colorChosen]}
               onPress={() => {
                 setColor('pink');
                 setChosenBG('pink');
@@ -83,11 +89,12 @@ const Start = ({ navigation }) => {
             accessibleLabel="Go to Chat"
             accessibleHint="Let's you submit your chosen name and go to the Chat screen"
             accessibilityRole="button"
-            style={styles.submitButton}
+            style={[styles.submitButton, { backgroundColor: color }]}
             onPress={() => {
-              navigation.navigate('Chat', { name: name, color: color });
-            }}
-          >
+              signInUser(),
+              navigation.navigate('Chat', { name: name, color: color})
+            }
+          }>
             <Text>Submit Name and start Chatting!</Text>
           </TouchableOpacity>
           {Platform.OS === "ios" ? <KeyboardAvoidingView behavior="padding" /> : null}
@@ -146,7 +153,7 @@ const styles = StyleSheet.create({
     width: 75,
     marginHorizontal: 10,
     marginVertical: 5,
-    broderRadius: 50
+    borderRadius: 80
   },
   colorChoice1: {
     backgroundColor: 'pink',
