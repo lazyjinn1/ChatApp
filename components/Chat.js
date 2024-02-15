@@ -20,7 +20,7 @@ const Chat = ({ route, navigation, db }) => {
         newMessages.push({
           id: doc.id,
           ...doc.data(), // this is a shortened form for which you just need to say, " and the rest".
-          createdAt: new Date(doc.data().createdAt.toMillis())
+          createdAt: new Date(doc.data().createdAt.toMillis()) //time set to "to milliseconds"
         });
       });
       setMessages(newMessages);
@@ -30,19 +30,14 @@ const Chat = ({ route, navigation, db }) => {
     return () => {
       if (unsubMessages) unsubMessages();
     };
-  }, [db]);  //depenedcy array there so everytime it goes through a change, this code runs again.
+  }, [db]);  //dependency array there so everytime it goes through a change, this code runs again.
 
   useEffect(() => {
     navigation.setOptions({ title: name });
   }, [name, navigation]);
 
   const onSend = async (newMessages = []) => {
-    try {
-      const docRef = await addDoc(collection(db, 'messages'), newMessages[0]);
-      console.log("Message written with ID: ", docRef.id);
-    } catch (e) {
-      console.error("Error sending message: ", e);
-    }
+    const docRef = await addDoc(collection(db, 'messages'), newMessages[0]);
   };
 
   const renderBubble = (props) => {
