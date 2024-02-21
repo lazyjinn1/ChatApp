@@ -1,30 +1,48 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, ImageBackground, Alert, KeyboardAvoidingView, Platform } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Alert, KeyboardAvoidingView, Platform } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import { getAuth, signInAnonymously } from 'firebase/auth';
 
 const Start = ({ navigation }) => {
   const [name, setName] = useState('');
-  const [color, setColor] = useState('');
-  const [chosenBG, setChosenBG] = useState(null);
+  const [BGcolor, setBGColor] = useState(null);
+  const [leftColor, setLeftColor] = useState(null);
+  const [rightColor, setRightColor] = useState(null);
+  const [chatroom, setChatroom] = useState('General');
 
   // getAuth is for our Anonymous authentication
   const auth = getAuth();
 
-  //when button is clicked, the user is "signed on" with their temporary account
+  // when the button is clicked, the user is "signed on" with their temporary account
   const signInUser = () => {
+    if (!name || !chatroom) {
+      Alert.alert('Please enter a name and choose a chatroom');
+      return;
+    }
+
     signInAnonymously(auth)
       .then(result => {
-        navigation.navigate('Chat', { userID: result.user.uid, name, color});
+        navigation.navigate('Chat', { userID: result.user.uid, name, BGcolor, leftColor, rightColor, chatroom });
       })
-      .catch((e) => {
+      .catch(() => {
         Alert.alert('Unable to sign in, try again later.');
-      })
-  }
+      });
+  };
+
+  const selectOption = (selectedBGColor, leftColor, rightColor, selectedChatroom) => {
+    setBGColor(selectedBGColor);
+    setLeftColor(leftColor);
+    setRightColor(rightColor);
+    setChatroom(selectedChatroom);
+  };
 
   return (
-    <View style={styles.container}>
-      <ImageBackground source={require('../assets/Background Image.png')} style={styles.imageBackground}>
+    <LinearGradient
+      colors={['#4c669f', '#3b5998', 'white']}
+      style={styles.linearGradient}
+    >
+      <View style={styles.container}>
         <View style={styles.subContainer}>
           <Text>Welcome!</Text>
           <TextInput
@@ -36,71 +54,92 @@ const Start = ({ navigation }) => {
             onChangeText={setName}
             placeholder={"What's your name?"}
           />
-          <Text>Choose a background color</Text>
-          <View style={styles.colorChoiceContainer}>
+
+          <Text>Please choose a chatroom:</Text>
+          <View style={styles.optionsContainer}>
             <TouchableOpacity
               accessible={true}
-              accessibleLabel="Pink"
-              accessibleHint="Let's you choose the Background color of your chat app"
+              accessibleLabel="General and Pink"
+              accessibleHint="Choose General chatroom and Pink background color"
               accessibilityRole="button"
-              style={[styles.colorChoice, styles.colorChoice1, chosenBG === 'pink' && styles.colorChosen]}
-              onPress={() => {
-                setColor('pink');
-                setChosenBG('pink');
-              }}
-            />
+              style={[styles.optionButton, styles.option1, (chatroom === 'General') && styles.optionSelected]}
+              onPress={() => selectOption('pink', 'lightblue', 'brown', 'General')}
+            >
+              <Text>General</Text>
+            </TouchableOpacity>
+
             <TouchableOpacity
               accessible={true}
-              accessibleLabel="Dark Slate Grey"
-              accessibleHint="Let's you choose the Background color of your chat app"
+              accessibleLabel="Tech and grey"
+              accessibleHint="Choose Tech chatroom and grey background color"
               accessibilityRole="button"
-              style={[styles.colorChoice, styles.colorChoice2, chosenBG === 'darkslategrey' && styles.colorChosen]}
-              onPress={() => {
-                setColor('darkslategrey');
-                setChosenBG('darkslategrey');
-              }}
-            />
+              style={[styles.optionButton, styles.option2, (chatroom === 'Tech') && styles.optionSelected]}
+              onPress={() => selectOption('grey', 'white', 'black', 'Tech')}
+            >
+              <Text>Tech</Text>
+            </TouchableOpacity>
+
             <TouchableOpacity
               accessible={true}
-              accessibleLabel="Grey"
-              accessibleHint="Let's you choose the Background color of your chat app"
+              accessibleLabel="Memes and Light Green"
+              accessibleHint="Choose Memes chatroom and Light Green background color"
               accessibilityRole="button"
-              style={[styles.colorChoice, styles.colorChoice3, chosenBG === 'grey' && styles.colorChosen]}
-              onPress={() => {
-                setColor('grey');
-                setChosenBG('grey');
-              }}
-            />
+              style={[styles.optionButton, styles.option3, (chatroom === 'Memes') && styles.optionSelected]}
+              onPress={() => selectOption('lightgreen', 'pink', 'darkblue', 'Memes')}
+            >
+              <Text>Memes</Text>
+            </TouchableOpacity>
+
             <TouchableOpacity
               accessible={true}
-              accessibleLabel="Light Green"
-              accessibleHint="Let's you choose the Background color of your chat app"
+              accessibleLabel="Art and orchid"
+              accessibleHint="Choose Art chatroom and orchid background color"
               accessibilityRole="button"
-              style={[styles.colorChoice, styles.colorChoice4, chosenBG === 'lightgreen' && styles.colorChosen]}
-              onPress={() => {
-                setColor('lightgreen');
-                setChosenBG('lightgreen');
-              }}
-            />
+              style={[styles.optionButton, styles.option4, (chatroom === 'Art') && styles.optionSelected]}
+              onPress={() => selectOption('orchid', 'gold', 'purple', 'Art')}
+            >
+              <Text>Art</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              accessible={true}
+              accessibleLabel="Gaming and skyblue"
+              accessibleHint="Choose Gaming chatroom and skyblue background color"
+              accessibilityRole="button"
+              style={[styles.optionButton, styles.option5, (chatroom === 'Gaming') && styles.optionSelected]}
+              onPress={() => selectOption('skyblue', 'dodgerblue', 'navy', 'Gaming')}
+            >
+              <Text>Gaming</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              accessible={true}
+              accessibleLabel="Travel and crimson"
+              accessibleHint="Choose Travel chatroom and crimson background color"
+              accessibilityRole="button"
+              style={[styles.optionButton, styles.option6, (chatroom === 'Travel') && styles.optionSelected]}
+              onPress={() => selectOption('crimson', 'pink', 'gold', 'Travel')}
+            >
+              <Text>Travel</Text>
+            </TouchableOpacity>
           </View>
 
           <TouchableOpacity
             accessible={true}
             accessibleLabel="Go to Chat"
-            accessibleHint="Let's you submit your chosen name and go to the Chat screen"
+            accessibleHint="Submit your chosen name, background color, and chatroom and go to the Chat screen"
             accessibilityRole="button"
-            style={[styles.submitButton, { backgroundColor: color }]}
-            onPress={() => {
-              signInUser(),
-              navigation.navigate('Chat', { name: name, color: color})
-            }
-          }>
+            style={[styles.submitButton, { backgroundColor: BGcolor }]}
+            onPress={signInUser}
+          >
             <Text>Submit Name and start Chatting!</Text>
           </TouchableOpacity>
+
+          {/* this is for fixing a well-known issue with ios and the keyboard */}
           {Platform.OS === "ios" ? <KeyboardAvoidingView behavior="padding" /> : null}
         </View>
-      </ImageBackground>
-    </View>
+      </View>
+    </LinearGradient>
   );
 };
 
@@ -119,12 +158,6 @@ const styles = StyleSheet.create({
     padding: 15
   },
 
-  imageBackground: {
-    flex: 1,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   textInput: {
     width: '100%',
     padding: 25,
@@ -136,41 +169,62 @@ const styles = StyleSheet.create({
     fontWeight: '300',
     opacity: 100,
     backgroundColor: 'white'
+    
   },
   submitButton: {
-    backgroundColor: '{color}',
+    backgroundColor: 'pink',
     borderRadius: 20,
     color: 'white',
     padding: 10,
+    marginTop: 10,
   },
 
-  colorChoiceContainer: {
+  optionsContainer: {
     flexDirection: 'row',
-    marginBottom: 10
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginTop: 10,
   },
-  colorChoice: {
-    height: 75,
-    width: 75,
+  optionButton: {
+    padding: 10,
+    borderRadius: '50%',
+    width: 100,
+    height: 40,
+    alignItems: 'center',
     marginHorizontal: 10,
-    marginVertical: 5,
-    borderRadius: 80
+    marginTop: 10,
   },
-  colorChoice1: {
+  option1: {
     backgroundColor: 'pink',
   },
-  colorChoice2: {
-    backgroundColor: 'darkslategrey',
+  option2: {
+    backgroundColor: 'grey',
   },
-  colorChoice3: {
-    backgroundColor: 'lightgrey',
-  },
-  colorChoice4: {
+  option3: {
     backgroundColor: 'lightgreen',
   },
-  colorChosen: {
+  option4: {
+    backgroundColor: 'orchid',
+  },
+  option5: {
+    backgroundColor: 'skyblue',
+  },
+  option6: {
+    backgroundColor: 'crimson',
+  },
+  // shows which option is currently selected
+  optionSelected: {
     borderColor: 'gold',
-    borderWidth: 4
-  }
+    borderWidth: 4,
+    padding: 4
+  },
+
+  linearGradient: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export default Start;

@@ -7,11 +7,16 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, disableNetwork, enableNetwork } from "firebase/firestore";
 import { useNetInfo } from "@react-native-community/netinfo";
 import { useEffect } from "react";
+import { getStorage } from 'firebase/storage';
 
+//for navigation
 const Stack = createNativeStackNavigator();
+
+//lets us ignore some errors
 LogBox.ignoreLogs(["AsyncStorage has been extracted from"]);
 
 const App = () => {
+  
   const connectionStatus = useNetInfo();
   // Taken from our firebase database
   const firebaseConfig = {
@@ -29,6 +34,9 @@ const App = () => {
 
   // Initialize Cloud Firestore and get a reference to the service
   const db = getFirestore(app);
+
+  // initializing our storage for images
+  const storage = getStorage(app);
 
   useEffect(() => {
     if (connectionStatus.isConnected === false) {
@@ -52,7 +60,13 @@ const App = () => {
         <Stack.Screen
           name="Chat"
         >
-          {props => <Chat isConnected={connectionStatus.isConnected} db={db} {...props} />}
+          {props => 
+          <Chat 
+            isConnected={connectionStatus.isConnected} 
+            db={db} 
+            storage={storage}
+            {...props} 
+          />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
