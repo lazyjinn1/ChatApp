@@ -6,7 +6,7 @@ import { getAuth, signInAnonymously } from 'firebase/auth';
 
 const Start = ({ navigation }) => {
   const [name, setName] = useState('');
-  const [BGcolor, setBGColor] = useState(null);
+  const [BGcolor, setBGColor] = useState('pink');
   const [leftColor, setLeftColor] = useState(null);
   const [rightColor, setRightColor] = useState(null);
   const [chatroom, setChatroom] = useState('General');
