@@ -10,6 +10,19 @@ const Start = ({ navigation }) => {
   const [leftColor, setLeftColor] = useState(null);
   const [rightColor, setRightColor] = useState(null);
   const [chatroom, setChatroom] = useState('General');
+  const [authNumber, setAuthNumber] = useState('');
+  const [dateOfRepair, setDateOfRepair] = useState('');
+  const [roNumber, setRoNumber] = useState('');
+  const [lineNumber, setlineNumber] = useState('');
+  const [percentParts, setPercentParts] = useState('');
+  const [percentLabor, setPercentLabor] = useState('');
+  const [mileage, setMileage] = useState('');
+  const [vinNumber, setVinNumber] = useState('');
+  const [furtherComments, setFurtherComments] = useState('');
+  const [todaysDate, setTodaysDate] = useState('');
+  const [todaysTime, setTodaysTime] = useState('');
+  const [showModal, setShowModal] = useState(false);
+
 
   // getAuth is for our Anonymous authentication
   const auth = getAuth();
@@ -37,6 +50,11 @@ const Start = ({ navigation }) => {
     setChatroom(selectedChatroom);
   };
 
+  const handleShowModal = () => {
+    Alert.alert('Auth Number: ' + authNumber);
+    Alert.alert('Successfully uploaded Autho');
+  }
+
   return (
     <LinearGradient
       colors={['#4c669f', '#3b5998', 'white']}
@@ -46,16 +64,75 @@ const Start = ({ navigation }) => {
         <View style={styles.subContainer}>
           <Text>Welcome!</Text>
           <TextInput
-            accessible={true}
-            accessibleLabel="Write your name"
-            accessibleHint="Let's you choose your Screen Name for the chat app"
-            style={styles.textInput}
-            value={name}
-            onChangeText={setName}
-            placeholder={"What's your name?"}
+            style={styles.AuthoStyle}
+            onChangeText={setAuthNumber}
+            placeholder={"Auth Number"}
           />
 
-          <Text>Please choose a chatroom:</Text>
+          <TextInput
+            style={styles.AuthoStyle}
+            onChangeText={setDateOfRepair}
+            placeholder={"Date of Repair"}
+          />
+
+          <TextInput
+            style={styles.AuthoStyle}
+            onChangeText={setRoNumber}
+            placeholder={"RO Number"}
+          />
+
+          <TextInput
+            style={styles.AuthoStyle}
+            onChangeText={setlineNumber}
+            placeholder={"Line Number"}
+          />
+
+          <TextInput
+            style={styles.AuthoStyle}
+            onChangeText={setPercentParts}
+            placeholder={"% Parts"}
+          />
+
+          <TextInput
+            style={styles.AuthoStyle}
+            onChangeText={setPercentLabor}
+            placeholder={"% Labor"}
+          />
+
+          <TextInput
+            style={styles.AuthoStyle}
+            onChangeText={setMileage}
+            placeholder={"Mileage"}
+          />
+
+          <TextInput
+            style={styles.AuthoStyle}
+            onChangeText={setVinNumber}
+            placeholder={"VIN Number"}
+          />
+
+          <TextInput
+            style={styles.AuthoStyle}
+            onChangeText={setFurtherComments}
+            placeholder={"Further Comments"}
+          />
+
+          <TextInput
+            style={styles.AuthoStyle}
+            onChangeText={setTodaysDate}
+            placeholder={"Today's Date"}
+          />
+
+          <TextInput
+            style={styles.AuthoStyle}
+            onChangeText={setTodaysTime}
+            placeholder={"Today's Time"}
+          />
+
+
+
+
+          {/* <Text>Please choose a chatroom:</Text>
           <View style={styles.optionsContainer}>
             <TouchableOpacity
               accessible={true}
@@ -122,17 +199,12 @@ const Start = ({ navigation }) => {
             >
               <Text>Travel</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
 
           <TouchableOpacity
-            accessible={true}
-            accessibleLabel="Go to Chat"
-            accessibleHint="Submit your chosen name, background color, and chatroom and go to the Chat screen"
-            accessibilityRole="button"
-            style={[styles.submitButton, { backgroundColor: BGcolor }]}
-            onPress={signInUser}
+          onPress={handleShowModal}
           >
-            <Text>Submit Name and start Chatting!</Text>
+            <Text>Submit Autho</Text>
           </TouchableOpacity>
 
           {/* this is for fixing a well-known issue with ios and the keyboard */}
@@ -144,6 +216,14 @@ const Start = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  AuthoStyle: {
+    borderColor: 'black',
+    borderWidth: 2,
+    padding: 10,
+    width: 300,
+
+  },
+
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -169,7 +249,7 @@ const styles = StyleSheet.create({
     fontWeight: '300',
     opacity: 100,
     backgroundColor: 'white'
-    
+
   },
   submitButton: {
     backgroundColor: 'pink',
