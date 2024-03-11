@@ -14,11 +14,13 @@ This is a Chatroom application built using React-Native. The app allows users to
 - [License](#license)
 
 ## Screenshots
-<img src="./assets/screenshots/screenshot1.png" width="275" height="500">
-<img src="./assets/screenshots/screenshot2.png" width="275" height="500">
-<img src="./assets/screenshots/screenshot3.png" width="275" height="500">
-<img src="./assets/screenshots/screenshot4.png" width="275" height="500">
-<img src="./assets/screenshots/screenshot5.png" width="275" height="500">
+<div display='grid'>
+    <img src="./assets/screenshots/screenshot1.png" width="275" height="500">
+    <img src="./assets/screenshots/screenshot2.png" width="275" height="500">
+    <img src="./assets/screenshots/screenshot3.png" width="275" height="500">
+    <img src="./assets/screenshots/screenshot4.png" width="275" height="500">
+    <img src="./assets/screenshots/screenshot5.png" width="275" height="500">
+</div>
 
 ## Features:
  - Choose any name you'd like and log-on Anonymously using Firebase's anonymous authentication.
