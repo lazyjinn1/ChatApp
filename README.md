@@ -14,7 +14,7 @@ This is a Chatroom application built using React-Native. The app allows users to
 - [License](#license)
 
 ## Screenshots
-<div display='grid'>
+<div display="grid">
     <img src="./assets/screenshots/screenshot1.png" width="275" height="500">
     <img src="./assets/screenshots/screenshot2.png" width="275" height="500">
     <img src="./assets/screenshots/screenshot3.png" width="275" height="500">
